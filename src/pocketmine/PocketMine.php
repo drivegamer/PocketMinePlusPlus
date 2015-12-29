@@ -72,7 +72,7 @@ namespace pocketmine {
 	use pocketmine\utils\Utils;
 	use pocketmine\wizard\Installer;
 
-	const VERSION = '77.7dev-14';
+	const VERSION = '77.7dev-15';
 	const API_VERSION = "1.77.7";
 	const CODENAME = "[PM++ vk.com/pocketmine_plus_plus]";
 	const MINECRAFT_VERSION = "v0.13.1 alpha";
@@ -462,7 +462,6 @@ namespace pocketmine {
 
 	ThreadManager::init();
 	$server = new Server($autoloader, $logger, \pocketmine\PATH, \pocketmine\DATA, \pocketmine\PLUGIN_PATH);
-	\define("\\pocketmine\\SERVER", $server);
 
 	$logger->info("Stopping other threads");
 
