@@ -456,9 +456,9 @@ namespace pocketmine {
 		new Installer();
 	}
 
-	if(\Phar::running(\true) === ""){
+	/*if(\Phar::running(\true) === ""){
 		$logger->warning("Non-packaged PocketMine-MP installation detected, do not use on production.");
-	}
+	}*/
 
 	ThreadManager::init();
 	$server = new Server($autoloader, $logger, \pocketmine\PATH, \pocketmine\DATA, \pocketmine\PLUGIN_PATH);
