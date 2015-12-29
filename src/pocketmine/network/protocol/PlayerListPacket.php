@@ -30,7 +30,7 @@ class PlayerListPacket extends DataPacket{
 	const TYPE_ADD = 0;
 	const TYPE_REMOVE = 1;
 
-	//REMOVE: UUID, ADD: UUID, entity id, name, isSlim, skinflag, skin
+	//REMOVE: UUID, ADD: UUID, entity id, name, isSlim, isTansparent, skin oldclient, skinname
 	/** @var array[] */
 	public $entries = [];
 	public $type;
@@ -53,9 +53,13 @@ class PlayerListPacket extends DataPacket{
 				$this->putUUID($d[0]);
 				$this->putLong($d[1]);
 				$this->putString($d[2]);
-				$this->putByte($d[3] ? 1 : 0);
-				$this->put($d[4]);
-				$this->put($d[5]);
+				if($d[6]){
+					$this->putByte($d[3] ? 1 : 0);
+					$this->putByte($d[4] ? 1 : 0);
+				}else{
+					$this->putString($d[7]);
+				}
+				$this->putString($d[5]);
 			}else{
 				$this->putUUID($d[0]);
 			}

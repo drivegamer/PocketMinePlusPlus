@@ -23,16 +23,6 @@ namespace pocketmine\utils;
 
 use pocketmine\utils\Binary;
 
-
-
-
-
-
-
-
-
-
-
 use pocketmine\item\Item;
 
 

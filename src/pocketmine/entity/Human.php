@@ -58,15 +58,25 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	public $eyeHeight = 1.62;
 
 	protected $skin;
-	protected $skinflag;
+	protected $skinname;
+	protected $isOldClient;
 	protected $isSlim = false;
+	protected $isTransparent = false;
 
 	public function getSkinData(){
 		return $this->skin;
 	}
 
-	public function getSkinFlag(){
-		return $this->skinflag;
+	public function getSkinName(){
+		return $this->skinname;
+	}
+
+	public function isOldClient(){
+		return $this->isOldClient;
+	}
+
+	public function isSkinTransparent(){
+		return $this->isTransparent;
 	}
 
 	public function isSkinSlim(){
@@ -91,9 +101,11 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	 * @param string $str
 	 * @param bool   $isSlim
 	 */
-	public function setSkin($str, $skinflag, $isSlim = false){
+	public function setSkin($str, $skinname = "", $isOldClient = false, $isSlim = false, $isTransparent = null){
 		$this->skin = $str;
-		$this->skinflag = $skinflag;
+		$this->skinname = $skinname;
+		$this->isOldClient = (bool) $isOldClient;
+		$this->isTransparent = (bool) $isTransparent;
 		$this->isSlim = (bool) $isSlim;
 	}
 
@@ -118,7 +130,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 			}
 
 			if(isset($this->namedtag->Skin) and $this->namedtag->Skin instanceof Compound){
-				$this->setSkin($this->namedtag->Skin["Data"], $this->namedtag->Skin["Slim"] > 0);
+				$this->setSkin($this->namedtag->Skin["Data"], $this->namedtag->Skin["Slim"] > 0, $this->namedtag->Skin["Transparent"] > 0);
 			}
 
 			$this->uuid = UUID::fromData($this->getId(), $this->getSkinData(), $this->getNameTag());
@@ -201,7 +213,10 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		if(strlen($this->getSkinData()) > 0){
 			$this->namedtag->Skin = new Compound("Skin", [
 				"Data" => new String("Data", $this->getSkinData()),
-				"Slim" => new Byte("Slim", $this->isSkinSlim() ? 1 : 0)
+				"Name" => new String("Name", $this->getSkinName()),
+				"Client" => new Byte("Clinet", $this->isOldClient() ? 1 : 0),
+				"Slim" => new Byte("Slim", $this->isSkinSlim() ? 1 : 0),
+				"Transparent" => new Byte("Transparent", $this->isSkinTransparent() ? 1 : 0)
 			]);
 		}
 	}
@@ -216,7 +231,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 
 			if($this instanceof Player){
-				$this->server->updatePlayerListData($this->getUniqueId(), $this->getId(), $this->getName(), $this->isSlim, $this->skin, $this->skinflag, [$player]);
+				$this->server->updatePlayerListData($this->getUniqueId(), $this->getId(), $this->getName(), $this->isSlim, $this->skin, [$player], $this->isTransparent, $player->isOldClient, $this->skinname);
 			}
 
 			$pk = new AddPlayerPacket();
@@ -236,15 +251,15 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 			$player->dataPacket($pk);
 
 			$this->inventory->sendArmorContents($player);
-
-			if(!($this instanceof Player)){
-				$this->server->removePlayerListData($this->getUniqueId(), [$player]);
-			}
 		}
 	}
 
 	public function despawnFrom(Player $player){
 		if(isset($this->hasSpawned[$player->getLoaderId()])){
+
+			if($this instanceof Player){
+				$this->server->removePlayerListData($this->getUniqueId(), [$player]);
+			}
 
 			$pk = new RemovePlayerPacket();
 			$pk->eid = $this->getId();

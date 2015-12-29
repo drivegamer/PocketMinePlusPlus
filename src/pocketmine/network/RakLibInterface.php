@@ -138,7 +138,7 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 				if($packet->buffer !== ""){
 					$pk = $this->getPacket($packet->buffer);
 					if($pk !== \null){
-						$this->server->getPluginManager()->callEvent(($ev = new PacketReceivePreprocessEvent($this->players[$identifier], $packet->buffer));
+						$this->server->getPluginManager()->callEvent(($ev = new PacketReceivePreprocessEvent($this->players[$identifier], $packet->buffer)));
 						if(!$ev->isCancelled()){
 							$pk->decode();
 							$this->players[$identifier]->handleDataPacket($pk);
@@ -205,7 +205,7 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 			$identifier = $this->identifiers[$h];
 			$pk = \null;
 			if(!$packet->isEncoded){
-				$this->server->getPluginManager()->callEvent(($ev = new PacketSendPreprocessEvent($player, $packet->getBuffer()));
+				$this->server->getPluginManager()->callEvent(($ev = new PacketSendPreprocessEvent($player, $packet->getBuffer())));
 				if($ev->isCancelled()) return;
 				$packet->encode();
 			}elseif(!$needACK){

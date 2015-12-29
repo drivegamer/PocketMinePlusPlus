@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  *
  *  ____            _        _   __  __ _                  __  __ ____
  * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
@@ -14,34 +14,25 @@
  * (at your option) any later version.
  *
  * @author PocketMine Team
- * @link   http://www.pocketmine.net/
+ * @link http://www.pocketmine.net/
  *
  *
- */
+*/
 
-namespace pocketmine\event\server;
+namespace pocketmine\network\protocol;
 
-use pocketmine\event;
-use pocketmine\event\Cancellable;
-use pocketmine\network\protocol\DataPacket;
-use pocketmine\Player;
+class SetPlayerGameTypePacket extends DataPacket{
+	const NETWORK_ID = Info::SET_PLAYER_GAMETYPE_PACKET;
 
-class PacketSendPreprocessEvent extends ServerEvent implements Cancellable{
-	public static $handlerList = \null;
+	public $gamemode;
 
-	private $buffer;
-	private $player;
+	public function decode(){
 
-	public function __construct(Player $player, $buffer){
-		$this->buffer = $buffer;
-		$this->player = $player;
 	}
 
-	public function getBuffer(){
-		return $this->buffer;
+	public function encode(){
+		$this->reset();
+		$this->putInt($this->gamemode);
 	}
 
-	public function getPlayer(){
-		return $this->player;
-	}
 }
