@@ -19,27 +19,27 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+namespace pocketmine\scheduler;
 
-use pocketmine\level\generator\populator\TallGrass;
+use pocketmine\Worker;
 
-class OceanBiome extends GrassyBiome{
+class AsyncWorker extends Worker{
 
-	public function __construct(){
-		parent::__construct();
+	public function run(){
+		$this->registerClassLoader();
+		\gc_enable();
+		\ini_set("memory_limit", -1);
 
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
+		global $store;
+		$store = [];
 
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
 	}
 
-	public function getName(){
-		return "Ocean";
+	public function start($options = PTHREADS_INHERIT_NONE){
+		parent::start(PTHREADS_INHERIT_CONSTANTS | PTHREADS_INHERIT_FUNCTIONS);
+	}
+
+	public function getThreadName(){
+		return "Asynchronous Worker";
 	}
 }

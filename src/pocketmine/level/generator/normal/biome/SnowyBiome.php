@@ -21,25 +21,17 @@
 
 namespace pocketmine\level\generator\normal\biome;
 
-use pocketmine\level\generator\populator\TallGrass;
+use pocketmine\block\Block;
 
-class OceanBiome extends GrassyBiome{
+abstract class SnowyBiome extends NormalBiome{
 
 	public function __construct(){
-		parent::__construct();
-
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
-
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
-	}
-
-	public function getName(){
-		return "Ocean";
+		$this->setGroundCover([
+			Block::get(Block::SNOW_LAYER, 0),
+			Block::get(Block::GRASS, 0),
+			Block::get(Block::DIRT, 0),
+			Block::get(Block::DIRT, 0),
+			Block::get(Block::DIRT, 0),
+		]);
 	}
 }

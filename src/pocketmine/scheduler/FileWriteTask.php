@@ -19,27 +19,25 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+namespace pocketmine\scheduler;
 
-use pocketmine\level\generator\populator\TallGrass;
+class FileWriteTask extends AsyncTask{
 
-class OceanBiome extends GrassyBiome{
+	private $path;
+	private $contents;
+	private $flags;
 
-	public function __construct(){
-		parent::__construct();
-
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
-
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
+	public function __construct($path, $contents, $flags = 0){
+		$this->path = $path;
+		$this->contents = $contents;
+		$this->flags = (int) $flags;
 	}
 
-	public function getName(){
-		return "Ocean";
+	public function onRun(){
+		try{
+			\file_put_contents($this->path, $this->contents, (int) $this->flags);
+		}catch (\Exception $e){
+
+		}
 	}
 }

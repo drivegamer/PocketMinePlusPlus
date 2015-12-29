@@ -19,27 +19,13 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+namespace pocketmine\level\sound;
 
-use pocketmine\level\generator\populator\TallGrass;
+use pocketmine\math\Vector3;
+use pocketmine\network\protocol\LevelEventPacket;
 
-class OceanBiome extends GrassyBiome{
-
-	public function __construct(){
-		parent::__construct();
-
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
-
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
-	}
-
-	public function getName(){
-		return "Ocean";
+class AnvilBreakSound extends GenericSound{
+	public function __construct(Vector3 $pos, $pitch = 0){
+		parent::__construct($pos, LevelEventPacket::EVENT_SOUND_ANVIL_BREAK, $pitch);
 	}
 }

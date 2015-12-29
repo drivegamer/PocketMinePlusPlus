@@ -19,27 +19,35 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+namespace pocketmine\metadata;
 
-use pocketmine\level\generator\populator\TallGrass;
+use pocketmine\plugin\Plugin;
 
-class OceanBiome extends GrassyBiome{
+abstract class MetadataValue{
+	/** @var \WeakRef<Plugin> */
+	protected $owningPlugin;
 
-	public function __construct(){
-		parent::__construct();
-
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
-
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
+	protected function __construct(Plugin $owningPlugin){
+		$this->owningPlugin = new \WeakRef($owningPlugin);
 	}
 
-	public function getName(){
-		return "Ocean";
+	/**
+	 * @return Plugin
+	 */
+	public function getOwningPlugin(){
+		return $this->owningPlugin->get();
 	}
+
+	/**
+	 * Fetches the value of this metadata item.
+	 *
+	 * @return mixed
+	 */
+	public abstract function value();
+
+	/**
+	 * Invalidates this metadata item, forcing it to recompute when next
+	 * accessed.
+	 */
+	public abstract function invalidate();
 }

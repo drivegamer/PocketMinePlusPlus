@@ -19,27 +19,17 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+namespace pocketmine\level\generator\object;
 
-use pocketmine\level\generator\populator\TallGrass;
+use pocketmine\block\Block;
+use pocketmine\block\Wood;
 
-class OceanBiome extends GrassyBiome{
+class JungleTree extends Tree{
 
 	public function __construct(){
-		parent::__construct();
-
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
-
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
-	}
-
-	public function getName(){
-		return "Ocean";
+		$this->trunkBlock = Block::LOG;
+		$this->leafBlock = Block::LEAVES;
+		$this->type = Wood::JUNGLE;
+		$this->treeHeight = 8;
 	}
 }

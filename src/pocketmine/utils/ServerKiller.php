@@ -19,27 +19,25 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+namespace pocketmine\utils;
 
-use pocketmine\level\generator\populator\TallGrass;
+use pocketmine\Thread;
 
-class OceanBiome extends GrassyBiome{
+class ServerKiller extends Thread{
 
-	public function __construct(){
-		parent::__construct();
+	public $time;
 
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
-
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
+	public function __construct($time = 15){
+		$this->time = $time;
 	}
 
-	public function getName(){
-		return "Ocean";
+	public function run(){
+		\sleep($this->time);
+		echo "\nTook too long to stop, server was killed forcefully!\n";
+		@\pocketmine\kill(\getmypid());
+	}
+
+	public function getThreadName(){
+		return "Server Killer";
 	}
 }

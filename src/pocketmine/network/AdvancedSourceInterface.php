@@ -19,27 +19,29 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+/**
+ * Network-related classes
+ */
+namespace pocketmine\network;
 
-use pocketmine\level\generator\populator\TallGrass;
+interface AdvancedSourceInterface extends SourceInterface{
 
-class OceanBiome extends GrassyBiome{
+	/**
+	 * @param string $address
+	 * @param int    $timeout Seconds
+	 */
+	public function blockAddress($address, $timeout = 300);
 
-	public function __construct(){
-		parent::__construct();
+	/**
+	 * @param Network $network
+	 */
+	public function setNetwork(Network $network);
 
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
+	/**
+	 * @param string $address
+	 * @param int    $port
+	 * @param string $payload
+	 */
+	public function sendRawPacket($address, $port, $payload);
 
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
-	}
-
-	public function getName(){
-		return "Ocean";
-	}
 }

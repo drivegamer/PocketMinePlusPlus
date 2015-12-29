@@ -19,27 +19,23 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+namespace pocketmine\permission;
 
-use pocketmine\level\generator\populator\TallGrass;
 
-class OceanBiome extends GrassyBiome{
+interface ServerOperator{
+	/**
+	 * Checks if the current object has operator permissions
+	 *
+	 * @return bool
+	 */
+	public function isOp();
 
-	public function __construct(){
-		parent::__construct();
-
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
-
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
-	}
-
-	public function getName(){
-		return "Ocean";
-	}
+	/**
+	 * Sets the operator permission for the current object
+	 *
+	 * @param bool $value
+	 *
+	 * @return void
+	 */
+	public function setOp($value);
 }

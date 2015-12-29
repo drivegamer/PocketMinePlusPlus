@@ -19,27 +19,17 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+namespace pocketmine\plugin;
 
-use pocketmine\level\generator\populator\TallGrass;
 
-class OceanBiome extends GrassyBiome{
+abstract class PluginLoadOrder{
+	/*
+	 * The plugin will be loaded at startup
+	 */
+	const STARTUP = 0;
 
-	public function __construct(){
-		parent::__construct();
-
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
-
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
-	}
-
-	public function getName(){
-		return "Ocean";
-	}
+	/*
+	 * The plugin will be loaded after the first world has been loaded/created.
+	 */
+	const POSTWORLD = 1;
 }

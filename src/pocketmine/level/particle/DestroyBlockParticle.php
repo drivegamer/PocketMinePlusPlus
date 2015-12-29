@@ -19,27 +19,29 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+namespace pocketmine\level\particle;
 
-use pocketmine\level\generator\populator\TallGrass;
+use pocketmine\network\protocol\LevelEventPacket;
+use pocketmine\block\Block;
+use pocketmine\math\Vector3;
 
-class OceanBiome extends GrassyBiome{
+class DestroyBlockParticle extends Particle{
+	
+	protected $data;
 
-	public function __construct(){
-		parent::__construct();
-
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
-
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
+	public function __construct(Vector3 $pos, Block $b){
+		parent::__construct($pos->x, $pos->y, $pos->z);
+		$this->data = $b->getId() + ($b->getDamage() << 12);
 	}
-
-	public function getName(){
-		return "Ocean";
+	
+	public function encode(){
+		$pk = new LevelEventPacket;
+		$pk->evid = LevelEventPacket::EVENT_PARTICLE_DESTROY;
+		$pk->x = $this->x;
+		$pk->y = $this->y;
+		$pk->z = $this->z;
+		$pk->data = $this->data;
+		
+		return $pk;
 	}
 }

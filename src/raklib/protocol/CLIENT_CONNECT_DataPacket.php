@@ -19,27 +19,36 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+namespace raklib\protocol;
 
-use pocketmine\level\generator\populator\TallGrass;
+use raklib\Binary;
 
-class OceanBiome extends GrassyBiome{
 
-	public function __construct(){
-		parent::__construct();
 
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
 
-		$this->addPopulator($tallGrass);
 
-		$this->setElevation(46, 58);
 
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
-	}
 
-	public function getName(){
-		return "Ocean";
-	}
+
+
+class CLIENT_CONNECT_DataPacket extends Packet{
+    public static $ID = 0x09;
+
+    public $clientID;
+    public $sendPing;
+    public $useSecurity = \false;
+
+    public function encode(){
+        parent::encode();
+        $this->buffer .= Binary::writeLong($this->clientID);
+        $this->buffer .= Binary::writeLong($this->sendPing);
+        $this->buffer .= \chr($this->useSecurity ? 1 : 0);
+    }
+
+    public function decode(){
+        parent::decode();
+        $this->clientID = Binary::readLong($this->get(8));
+        $this->sendPing = Binary::readLong($this->get(8));
+        $this->useSecurity = \ord($this->get(1)) > 0;
+    }
 }

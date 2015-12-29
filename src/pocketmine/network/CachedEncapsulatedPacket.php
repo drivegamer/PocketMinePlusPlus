@@ -19,27 +19,15 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+namespace pocketmine\network;
 
-use pocketmine\level\generator\populator\TallGrass;
+use raklib\protocol\EncapsulatedPacket;
 
-class OceanBiome extends GrassyBiome{
+class CachedEncapsulatedPacket extends EncapsulatedPacket{
 
-	public function __construct(){
-		parent::__construct();
+	private $internalData = \null;
 
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
-
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
-	}
-
-	public function getName(){
-		return "Ocean";
+	public function toBinary($internal = \false){
+		return $this->internalData === \null ? ($this->internalData = parent::toBinary($internal)) : $this->internalData;
 	}
 }

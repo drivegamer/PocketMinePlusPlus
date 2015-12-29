@@ -19,27 +19,21 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+/**
+ * Math related classes, like matrices, bounding boxes and vector
+ */
+namespace pocketmine\math;
 
-use pocketmine\level\generator\populator\TallGrass;
 
-class OceanBiome extends GrassyBiome{
+abstract class Math{
 
-	public function __construct(){
-		parent::__construct();
-
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
-
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
+	public static function floorFloat($n){
+		$i = (int) $n;
+		return $n >= $i ? $i : $i - 1;
 	}
 
-	public function getName(){
-		return "Ocean";
+	public static function ceilFloat($n){
+		$i = (int) ($n + 1);
+		return $n >= $i ? $i : $i - 1;
 	}
 }

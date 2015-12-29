@@ -19,27 +19,30 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+namespace pocketmine\scheduler;
 
-use pocketmine\level\generator\populator\TallGrass;
+use pocketmine\plugin\Plugin;
 
-class OceanBiome extends GrassyBiome{
+/**
+ * Base class for plugin tasks. Allows the Server to delete them easily when needed
+ */
+abstract class PluginTask extends Task{
 
-	public function __construct(){
-		parent::__construct();
+	/** @var Plugin */
+	protected $owner;
 
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
-
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
+	/**
+	 * @param Plugin $owner
+	 */
+	public function __construct(Plugin $owner){
+		$this->owner = $owner;
 	}
 
-	public function getName(){
-		return "Ocean";
+	/**
+	 * @return Plugin
+	 */
+	public final function getOwner(){
+		return $this->owner;
 	}
+
 }

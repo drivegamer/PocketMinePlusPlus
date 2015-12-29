@@ -19,27 +19,24 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+namespace pocketmine\plugin;
 
-use pocketmine\level\generator\populator\TallGrass;
+use pocketmine\event\Event;
+use pocketmine\event\Listener;
 
-class OceanBiome extends GrassyBiome{
+class MethodEventExecutor implements EventExecutor{
 
-	public function __construct(){
-		parent::__construct();
+	private $method;
 
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
-
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
+	public function __construct($method){
+		$this->method = $method;
 	}
 
-	public function getName(){
-		return "Ocean";
+	public function execute(Listener $listener, Event $event){
+		$listener->{$this->getMethod()}($event);
+	}
+
+	public function getMethod(){
+		return $this->method;
 	}
 }

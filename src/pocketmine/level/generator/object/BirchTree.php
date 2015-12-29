@@ -19,27 +19,29 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+namespace pocketmine\level\generator\object;
 
-use pocketmine\level\generator\populator\TallGrass;
+use pocketmine\block\Block;
+use pocketmine\block\Wood;
+use pocketmine\level\ChunkManager;
+use pocketmine\utils\Random;
 
-class OceanBiome extends GrassyBiome{
+class BirchTree extends Tree{
 
-	public function __construct(){
-		parent::__construct();
+	protected $superBirch = \false;
 
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
-
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
+	public function __construct($superBirch = \false){
+		$this->trunkBlock = Block::LOG;
+		$this->leafBlock = Block::LEAVES;
+		$this->type = Wood::BIRCH;
+		$this->superBirch = (bool) $superBirch;
 	}
 
-	public function getName(){
-		return "Ocean";
+	public function placeObject(ChunkManager $level, $x, $y, $z, Random $random){
+		$this->treeHeight = $random->nextBoundedInt(3) + 5;
+		if($this->superBirch){
+			$this->treeHeight += 5;
+		}
+		parent::placeObject($level, $x, $y, $z, $random);
 	}
 }

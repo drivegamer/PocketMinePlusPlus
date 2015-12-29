@@ -19,27 +19,13 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+namespace pocketmine\level\particle;
 
-use pocketmine\level\generator\populator\TallGrass;
+use pocketmine\math\Vector3;
+use pocketmine\item\Item;
 
-class OceanBiome extends GrassyBiome{
-
-	public function __construct(){
-		parent::__construct();
-
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
-
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
-	}
-
-	public function getName(){
-		return "Ocean";
+class ItemBreakParticle extends GenericParticle{
+	public function __construct(Vector3 $pos, Item $item){
+		parent::__construct($pos, Particle::TYPE_ITEM_BREAK, ($item->getId() << 16) | $item->getDamage());
 	}
 }

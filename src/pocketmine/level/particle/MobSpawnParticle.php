@@ -19,27 +19,30 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+namespace pocketmine\level\particle;
 
-use pocketmine\level\generator\populator\TallGrass;
+use pocketmine\network\protocol\LevelEventPacket;
+use pocketmine\math\Vector3;
 
-class OceanBiome extends GrassyBiome{
-
-	public function __construct(){
-		parent::__construct();
-
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
-
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
+class MobSpawnParticle extends Particle{
+	
+	protected $width;
+	protected $height;
+	
+	public function __construct(Vector3 $pos, $width = 0, $height = 0){
+		parent::__construct($pos->x, $pos->y, $pos->z);
+		$this->width = $width;
+		$this->height = $height;
 	}
-
-	public function getName(){
-		return "Ocean";
+	
+	public function encode(){
+		$pk = new LevelEventPacket;
+		$pk->evid = LevelEventPacket::EVENT_PARTICLE_SPAWN;
+		$pk->x = $this->x;
+		$pk->y = $this->y;
+		$pk->z = $this->z;
+		$pk->data = ($this->width & 0xff) + (($this->height & 0xff) << 8);
+		
+		return $pk;
 	}
 }

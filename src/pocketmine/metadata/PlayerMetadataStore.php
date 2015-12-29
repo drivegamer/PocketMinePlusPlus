@@ -19,27 +19,17 @@
  *
 */
 
-namespace pocketmine\level\generator\normal\biome;
+namespace pocketmine\metadata;
 
-use pocketmine\level\generator\populator\TallGrass;
+use pocketmine\IPlayer;
 
-class OceanBiome extends GrassyBiome{
+class PlayerMetadataStore extends MetadataStore{
 
-	public function __construct(){
-		parent::__construct();
+	public function disambiguate(Metadatable $player, $metadataKey){
+		if(!($player instanceof IPlayer)){
+			throw new \InvalidArgumentException("Argument must be an IPlayer instance");
+		}
 
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
-
-		$this->addPopulator($tallGrass);
-
-		$this->setElevation(46, 58);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
-	}
-
-	public function getName(){
-		return "Ocean";
+		return \strtolower($player->getName()) . ":" . $metadataKey;
 	}
 }
