@@ -249,7 +249,7 @@ class Network{
 
 					$pk->setBuffer($buf, 1);
 
-					$this->server->getPluginManager()->callEvent(($ev = new PacketReceivePreprocessEvent($p, $buf));
+					$this->server->getPluginManager()->callEvent(($ev = new PacketReceivePreprocessEvent($p, $buf)));
 					if($ev->isCancelled()) return;
 
 					$pk->decode();

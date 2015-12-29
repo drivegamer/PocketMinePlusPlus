@@ -23,7 +23,7 @@ namespace pocketmine\level\generator\normal;
 
 use pocketmine\block\Block;
 use pocketmine\block\CoalOre;
-use pocketmine\block\Air; 
+use pocketmine\block\Air;
 use pocketmine\block\DiamondOre;
 use pocketmine\block\Dirt;
 use pocketmine\block\GoldOre;
@@ -188,8 +188,10 @@ class Normal extends Generator{
 			new OreType(new DiamondOre(), 1, 7, 0, 16),
 			new OreType(new Dirt(), 20, 32, 0, 128),
 			new OreType(new Gravel(), 10, 16, 0, 128),
-      	 new OreType(new Air (), 2, 60, 0, 140) ,
-        new OreType(new Stone ()::meta = 1, 20, 16, 0, 128) 
+            new OreType(new Air (), 2, 60, 0, 140),
+            new OreType(new Granite (), 20, 16, 0, 128),
+			new OreType(new Andesite (), 20, 16, 0, 128),
+			new OreType(new Diorite (), 20, 16, 0, 128)
 		]);
 		$this->populators[] = $ores;
 	}

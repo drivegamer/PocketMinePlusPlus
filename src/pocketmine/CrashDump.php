@@ -41,7 +41,10 @@ class CrashDump{
 	public function __construct(Server $server){
 		$this->time = \time();
 		$this->server = $server;
-		$this->path = $this->server->getDataPath()."CrashDumps/" .\date ("d.m.y_H:i:s"). ".log";
+		if(!\file_exists($this->server->getDataPath() . "CrashDumps/")){
+				\mkdir($this->server->getDataPath() . "CrashDumps/", 0777);
+			}
+		$this->path = $this->server->getDataPath()."CrashDumps/" .\date ("d.m.y_H-i-s"). ".log";
 		$this->fp = @\fopen($this->path, "wb");
 		if(!\is_resource($this->fp)){
 			throw new \RuntimeException("Could not create Crash Dump");

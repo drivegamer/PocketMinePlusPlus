@@ -21,9 +21,6 @@
 
 namespace pocketmine\network\protocol;
 
-#include <rules/DataPacket.h>
-
-
 class LoginPacket extends DataPacket{
 	const NETWORK_ID = Info::LOGIN_PACKET;
 
@@ -37,7 +34,9 @@ class LoginPacket extends DataPacket{
 	public $clientSecret;
 
 	public $slim = false;
-	public $skinflag;
+	public $transparent = false;
+	public $skinname = "";
+	public $oldclient = false;
 	public $skin = null;
 
 	public function decode(){
@@ -53,10 +52,35 @@ class LoginPacket extends DataPacket{
 		$this->serverAddress = $this->getString();
 		$this->clientSecret = $this->getString();
 
+		$extrasize1 = strlen($this->buffer) - ($this->offset + 64 * 32 * 4 + 2);
+    $extrasize2 = strlen($this->buffer) - ($this->offset + 64 * 64 * 4 + 2);
 
-		$this->slim = $this->getByte() > 0;
-		$this->skinflag = $this->get(3);//TODO
-		$this->skin = $this->get(true);
+    if($extrasize1 > $extrasize2){
+      $extrasize1 = $extrasize2;
+    }
+
+    if($extrasize1 === 2){
+      $this->oldclient = true;
+      $this->slim = $this->getByte() > 0;
+      $this->transparent = $this->getByte() > 0;
+			if($this->slim){
+				$this->skinname = "Standard_Alex";
+			}else{
+				$this->skinname = "Standard_Steve";
+			}
+			if($this->transparent){
+				$this->skinname = "PvPWarriors_TundraStray";
+			}
+    }else{
+      $this->skinname = $this->getString();
+      if(strpos($this->skinname, "_Slim") !== false or strpos($this->skinname, "_Alex") !== false){
+        $this->slim = true;
+      }
+      if($this->skinname === "PvPWarriors_TundraStray"){//TODO: not check
+        $this->transparent = true;
+      }
+    }
+    $this->skin = $this->getString();
 	}
 
 	public function encode(){
