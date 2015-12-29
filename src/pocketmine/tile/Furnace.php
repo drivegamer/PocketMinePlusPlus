@@ -30,7 +30,7 @@ use pocketmine\inventory\InventoryHolder;
 use pocketmine\item\Item;
 use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\NBT;
-
+use pocketmine\nbt\tag\Int;
 use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\Short;
@@ -38,7 +38,7 @@ use pocketmine\nbt\tag\String;
 use pocketmine\network\Network;
 use pocketmine\network\protocol\ContainerSetDataPacket;
 
-class Furnace extends Tile implements InventoryHolder, Container, Nameable{
+class Furnace extends Spawnable implements InventoryHolder, Container, Nameable{
 	/** @var FurnaceInventory */
 	protected $inventory;
 
@@ -286,4 +286,21 @@ class Furnace extends Tile implements InventoryHolder, Container, Nameable{
 
 		return $ret;
 	}
+
+	public function getSpawnCompound(){
+        $nbt = new Compound("", [
+            new String("id", Tile::FURNACE),
+            new Int("x", (int) $this->x),
+            new Int("y", (int) $this->y),
+            new Int("z", (int) $this->z),
+            new Short("BurnTime", $this->namedtag["BurnTime"]),
+            new Short("CookTime", $this->namedtag["CookTime"]),
+            new Short("BurnDuration", $this->namedtag["BurnTicks"])
+        ]);
+        
+        if($this->hasName()){
+            $nbt->CustomName = $this->namedtag->CustomName;
+        }
+        return $nbt;
+    }
 }
