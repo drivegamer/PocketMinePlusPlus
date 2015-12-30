@@ -116,7 +116,7 @@ class Enchantment{
 		if(defined(Enchantment::class . "::TYPE_" . strtoupper($name))){
 			return self::getEnchantment(constant(Enchantment::class . "::TYPE_" . strtoupper($name)));
 		}
-		return null;
+		return \null;
 	}
 
 	private $id;

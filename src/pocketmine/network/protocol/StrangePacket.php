@@ -21,7 +21,6 @@
 
 namespace pocketmine\network\protocol;
 
-
 class StrangePacket extends DataPacket{
 	const NETWORK_ID = Info::STRANGE_PACKET;
 

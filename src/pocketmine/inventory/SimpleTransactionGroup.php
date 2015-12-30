@@ -31,9 +31,9 @@ use pocketmine\Server;
  */
 class SimpleTransactionGroup implements TransactionGroup{
 	private $creationTime;
-	protected $hasExecuted = false;
+	protected $hasExecuted = \false;
 	/** @var Player */
-	protected $source = null;
+	protected $source = \null;
 
 	/** @var Inventory[] */
 	protected $inventories = [];
@@ -44,8 +44,8 @@ class SimpleTransactionGroup implements TransactionGroup{
 	/**
 	 * @param Player $source
 	 */
-	public function __construct(Player $source = null){
-		$this->creationTime = microtime(true);
+	public function __construct(Player $source = \null){
+		$this->creationTime = microtime(\true);
 		$this->source = $source;
 	}
 
@@ -99,7 +99,7 @@ class SimpleTransactionGroup implements TransactionGroup{
 			$checkSourceItem = $ts->getInventory()->getItem($ts->getSlot());
 			$sourceItem = $ts->getSourceItem();
 			if(!$checkSourceItem->deepEquals($sourceItem) or $sourceItem->getCount() !== $checkSourceItem->getCount()){
-				return false;
+				return \false;
 			}
 			if($sourceItem->getId() !== Item::AIR){
 				$haveItems[] = $sourceItem;
@@ -123,7 +123,7 @@ class SimpleTransactionGroup implements TransactionGroup{
 			}
 		}
 
-		return true;
+		return \true;
 	}
 
 	public function canExecute(){
@@ -135,7 +135,7 @@ class SimpleTransactionGroup implements TransactionGroup{
 
 	public function execute(){
 		if($this->hasExecuted() or !$this->canExecute()){
-			return false;
+			return \false;
 		}
 
 		Server::getInstance()->getPluginManager()->callEvent($ev = new InventoryTransactionEvent($this));
@@ -147,16 +147,16 @@ class SimpleTransactionGroup implements TransactionGroup{
 				$inventory->sendContents($this->getSource());
 			}
 
-			return false;
+			return \false;
 		}
 
 		foreach($this->transactions as $transaction){
 			$transaction->getInventory()->setItem($transaction->getSlot(), $transaction->getTargetItem());
 		}
 
-		$this->hasExecuted = true;
+		$this->hasExecuted = \true;
 
-		return true;
+		return \true;
 	}
 
 	public function hasExecuted(){

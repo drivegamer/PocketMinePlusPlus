@@ -23,16 +23,6 @@ namespace pocketmine\network\protocol;
 
 use pocketmine\utils\Binary;
 
-
-
-
-
-
-
-
-
-
-
 class EntityEventPacket extends DataPacket{
 	const NETWORK_ID = Info::ENTITY_EVENT_PACKET;
 

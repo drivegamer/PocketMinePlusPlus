@@ -446,12 +446,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 * @return bool
 	 */
 	public function hasPermission($name){
-		if ($this->perm != null)
+		if ($this->perm != \null)
 			{
 	  	 return $this->perm->hasPermission($name);
 		 } else
 			{
-			 return false;
+			 return \false;
 			}
 	}
 
@@ -581,7 +581,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 	}
 
-	public function setSkin($str, $skinname = "", $isOldClient = false, $isSlim = false, $isTransparent = null){
+	public function setSkin($str, $skinname = "", $isOldClient = \false, $isSlim = \false, $isTransparent = \null){
 		parent::setSkin($str, $skinname, $isOldClient, $isSlim, $isTransparent);
 		if($this->spawned){
 			$this->server->sendFullPlayerListData($this);
@@ -1179,7 +1179,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$flags |= 0x01; //Do not allow placing/breaking blocks, adventure mode
 		}
 
-		/*if($nametags !== false){
+		/*if($nametags !== \false){
 			$flags |= 0x20; //Show Nametags
 		}*/
 
@@ -2071,7 +2071,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							$snowball->spawnToAll();
 						}
 					}
-					$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_ACTION, true);
+					$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_ACTION, \true);
 					$this->startAction = $this->server->getTick();
 				}
 				break;

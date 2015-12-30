@@ -862,6 +862,9 @@ abstract class Entity extends Location implements Metadatable{
 	}
 
 	protected function updateMovement(){
+	    if ($this->y <= 0){
+	        $this->kill();
+	    }
 		$diffPosition = ($this->x - $this->lastX) ** 2 + ($this->y - $this->lastY) ** 2 + ($this->z - $this->lastZ) ** 2;
 		$diffRotation = ($this->yaw - $this->lastYaw) ** 2 + ($this->pitch - $this->lastPitch) ** 2;
 
@@ -1139,7 +1142,7 @@ abstract class Entity extends Location implements Metadatable{
 
 			/*
 			if($this->isColliding){ //With cobweb?
-				$this->isColliding = false;
+				$this->isColliding = \false;
 				$dx *= 0.25;
 				$dy *= 0.05;
 				$dz *= 0.25;

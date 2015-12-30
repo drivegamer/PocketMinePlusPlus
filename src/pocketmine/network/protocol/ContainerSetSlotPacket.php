@@ -21,8 +21,6 @@
 
 namespace pocketmine\network\protocol;
 
-#include <rules/DataPacket.h>
-
 use pocketmine\item\Item;
 
 class ContainerSetSlotPacket extends DataPacket{

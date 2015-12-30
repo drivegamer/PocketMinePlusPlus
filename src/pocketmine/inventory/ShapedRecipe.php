@@ -30,7 +30,7 @@ class ShapedRecipe implements Recipe{
 	/** @var Item */
 	private $output;
 
-	private $id = null;
+	private $id = \null;
 
 	/** @var string[] */
 	private $shape = [];
@@ -57,10 +57,10 @@ class ShapedRecipe implements Recipe{
 			if(strlen($row) === 0 or strlen($row) > 3){
 				throw new \InvalidStateException("Crafting rows should be 1, 2, 3 characters, not " . count($row));
 			}
-			$this->ingredients[] = array_fill(0, strlen($row), null);
+			$this->ingredients[] = array_fill(0, strlen($row), \null);
 			$len = strlen($row);
 			for($i = 0; $i < $len; ++$i){
-				$this->shape[$row{$i}] = null;
+				$this->shape[$row{$i}] = \null;
 
 				if(!isset($this->shapeItems[$row{$i}])){
 					$this->shapeItems[$row{$i}] = [new Vector2($i, $y)];
@@ -90,7 +90,7 @@ class ShapedRecipe implements Recipe{
 	}
 
 	public function setId(UUID $id){
-		if($this->id !== null){
+		if($this->id !== \null){
 			throw new \InvalidStateException("Id is already set");
 		}
 
@@ -128,7 +128,7 @@ class ShapedRecipe implements Recipe{
 		foreach($this->ingredients as $y => $row){
 			$ingredients[$y] = [];
 			foreach($row as $x => $ingredient){
-				if($ingredient !== null){
+				if($ingredient !== \null){
 					$ingredients[$y][$x] = clone $ingredient;
 				}else{
 					$ingredients[$y][$x] = Item::get(Item::AIR);

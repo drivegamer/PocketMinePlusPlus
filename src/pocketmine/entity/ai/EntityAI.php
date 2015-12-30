@@ -20,11 +20,11 @@ class EntityAI{
 	}
 	public function willMove() {
 		foreach($this->entity->getViewers() as $viewer) {
-			if ($this->entity->distance($viewer->getLocation()) <= 32) return true;
+			if ($this->entity->distance($viewer->getLocation()) <= 32) return \true;
 		}
-		return false;
+		return \false;
 	}
-	public function ifjump(Level $level, Vector3 $v3, $hate = false, $reason = false) {  //boybook Y轴算法核心函数
+	public function ifjump(Level $level, Vector3 $v3, $hate = \false, $reason = \false) {  //boybook Y轴算法核心函数
 		$x = floor($v3->getX());
 		$y = floor($v3->getY());
 		$z = floor($v3->getZ());
@@ -37,7 +37,7 @@ class EntityAI{
 				if ($this->whatBlock($level,new Vector3($x,$y+1,$z)) == "block" or $this->whatBlock($level,new Vector3($x,$y+1,$z)) == "half" or $this->whatBlock($level,new Vector3($x,$y+1,$z)) == "high") {  //上方一格被堵住了
 					//echo "上方卡住 \n";
 					if ($reason) return 'up!';
-					return false;  //上方卡住
+					return \false;  //上方卡住
 				}
 				else {
 					//echo "GO向前走 \n";
@@ -58,7 +58,7 @@ class EntityAI{
 			elseif ($this->whatBlock($level,new Vector3($x,$y-1,$z)) == "lava") {  //岩浆
 				//echo "前方岩浆 \n";
 				if ($reason) return 'lava';
-				return false;  //前方岩浆
+				return \false;  //前方岩浆
 			}
 			elseif ($this->whatBlock($level,new Vector3($x,$y-1,$z)) == "air") {  //空气
 				//echo "考虑向下跳 ";
@@ -70,8 +70,8 @@ class EntityAI{
 				else { //前方悬崖
 					//echo "前方悬崖 \n";
 					if ($reason) return 'fall';
-					if ($hate === false) {
-						return false;
+					if ($hate === \false) {
+						return \false;
 					}
 					else {
 						return $y-1;  //向下跳
@@ -90,7 +90,7 @@ class EntityAI{
 				if ($this->whatBlock($level,new Vector3($x,$y-1,$z)) == "block" or $this->whatBlock($level,new Vector3($x,$y-1,$z)) == "half") {  //下方一格被也堵住了
 					//echo "上下都被卡住 \n";
 					if ($reason) return 'up!_down!';
-					return false;  //上下都被卡住
+					return \false;  //上下都被卡住
 				}
 				else {
 					//echo "向下游 \n";
@@ -106,7 +106,7 @@ class EntityAI{
 		elseif ($this->whatBlock($level,new Vector3($x,$y,$z)) == "half") {  //半砖
 			//echo "前方半砖 \n";
 			if ($this->whatBlock($level,new Vector3($x,$y+1,$z)) == "block" or $this->whatBlock($level,new Vector3($x,$y+1,$z)) == "half" or $this->whatBlock($level,new Vector3($x,$y+1,$z)) == "high") {  //上方一格被堵住了
-				//return false;  //上方卡住
+				//return \false;  //上方卡住
 			}
 			else {
 				if ($reason) return 'halfGO';
@@ -117,12 +117,12 @@ class EntityAI{
 		elseif ($this->whatBlock($level,new Vector3($x,$y,$z)) == "lava") {  //岩浆
 			//echo "前方岩浆 \n";
 			if ($reason) return 'lava';
-			return false;
+			return \false;
 		}
 		elseif ($this->whatBlock($level,new Vector3($x,$y,$z)) == "high") {  //1.5格高方块
 			//echo "前方栅栏 \n";
 			if ($reason) return 'high';
-			return false;
+			return \false;
 		}
 		elseif ($this->whatBlock($level,new Vector3($x,$y,$z)) == "climb") {  //梯子
 			//echo "前方梯子 \n";
@@ -139,13 +139,13 @@ class EntityAI{
 			if ($this->whatBlock($level,new Vector3($x,$y+1,$z)) != "air") {  //前方是面墙
 				//echo "前方是墙 \n";
 				if ($reason) return 'wall';
-				return false;
+				return \false;
 			}
 			else {
 				if ($this->whatBlock($level,new Vector3($x,$y+2,$z)) == "block" or $this->whatBlock($level,new Vector3($x,$y+2,$z)) == "half" or $this->whatBlock($level,new Vector3($x,$y+2,$z)) == "high") {  //上方两格被堵住了
 					//echo "2格处被堵 \n";
 					if ($reason) return 'up2!';
-					return false;
+					return \false;
 				}
 				else {
 					//echo "GO向上跳 \n";
@@ -154,7 +154,7 @@ class EntityAI{
 				}
 			}
 		}
-		return false;
+		return \false;
 	}
 
 	public function whatBlock(Level $level, $v3) {  //boybook的y轴判断法 核心 什么方块？
@@ -236,7 +236,7 @@ class EntityAI{
 	public function knockBackover(Vector3 $v3) {
 		if(isset($this->data)){
 			$this->entity->setPosition($v3);
-			$this->data['knockBack'] = false;
+			$this->data['knockBack'] = \false;
 		}
 	}
 	public function getyaw($mx, $mz) {  //根据motion计算转向角度

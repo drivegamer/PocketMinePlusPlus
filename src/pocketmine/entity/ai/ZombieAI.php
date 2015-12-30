@@ -46,7 +46,7 @@ class ZombieAI extends EntityAI{
                         if (!isset($this->data)){
                             $this->data = array(
                                 'ID' => $zo->getId(),
-                                'IsChasing' => false,
+                                'IsChasing' => \false,
                                 'motionx' => 0,
                                 'motiony' => 0,
                                 'motionz' => 0,
@@ -66,10 +66,10 @@ class ZombieAI extends EntityAI{
                                 'gotimer' => 10,
                                 'swim' => 0,
                                 'jump' => 0.01,
-                                'canjump' => true,
-                                'drop' => false,
+                                'canjump' => \true,
+                                'drop' => \false,
                                 'canAttack' => 0,
-                                'knockBack' => false,
+                                'knockBack' => \false,
                             );
                             $zom = &$this->data;
                             $zom['x'] = $zo->getX();
@@ -78,7 +78,7 @@ class ZombieAI extends EntityAI{
                         }
                         $zom = &$this->data;
 
-                        if ($zom['IsChasing'] === false) {  //Walk mode
+                        if ($zom['IsChasing'] === \false) {  //Walk mode
                             if ($zom['gotimer'] == 0 or $zom['gotimer'] == 10) {
                                 //Limit rotation rate
                                 $newmx = mt_rand(-5,5)/10;
@@ -110,9 +110,9 @@ class ZombieAI extends EntityAI{
                             //$width = $this->width;
                             $pos = new Vector3 ($zom['x'] + $zom['motionx'], floor($zo->getY()) + 1,$zom['z'] + $zom['motionz']);  //目标坐标
                             $zy = $this->ifjump($zo->getLevel(),$pos);
-                            if ($zy === false) {  //if can not move forward
+                            if ($zy === \false) {  //if can not move forward
                                 $pos2 = new Vector3 ($zom['x'], $zom['y'] ,$zom['z']);  //Target coordinates
-                                if ($this->ifjump($zo->getLevel(),$pos2) === false) { //Original coordinate
+                                if ($this->ifjump($zo->getLevel(),$pos2) === \false) { //Original coordinate
                                     $pos2 = new Vector3 ($zom['x'], $zom['y']-1,$zom['z']);  //decline
                                     $zom['up'] = 1;
                                     $zom['yup'] = 0;
@@ -173,10 +173,10 @@ class ZombieAI extends EntityAI{
                         $zom = &$this->data;
                         $h_r = $this->hatred_r;  //Hate radius
                         $pos = new Vector3($zo->getX(), $zo->getY(), $zo->getZ());
-                        $hatred = false;
+                        $hatred = \false;
                         foreach ($zo->getViewers() as $p) {  //Being close to the players
                             if ($p->distance($pos) <= $h_r) {  //Players within a radius of hatred
-                                if ($hatred === false) {
+                                if ($hatred === \false) {
                                     if ($p instanceof Player)
                                      {
                                       if (($p -> getGamemode () == 0) || ($p -> getGamemode () == 2)) $hatred = $p;
@@ -189,8 +189,8 @@ class ZombieAI extends EntityAI{
                             }
                         }
                         //echo ($zom['IsChasing']."\n");
-                        if ($hatred == false or $this->dif == 0) {
-                            $zom['IsChasing'] = false;
+                        if ($hatred == \false or $this->dif == 0) {
+                            $zom['IsChasing'] = \false;
                         } else {
                             $zom['IsChasing'] = $hatred->getName();
                         }
@@ -212,7 +212,7 @@ $level = $zo->getLevel();
                         //$zom['yup'] = $zom['yup'] - 1;
                         if (!$zom['knockBack']) {
                             $zom['oldv3'] = $zo->getLocation();
-                            $zom['canjump'] = true;
+                            $zom['canjump'] = \true;
 
                             //Zombie collision detection
                             foreach ($level->getEntities() as $zo0) {
@@ -239,10 +239,10 @@ $level = $zo->getLevel();
 
                             }
 
-                            if ($zom['IsChasing'] !== false) {
+                            if ($zom['IsChasing'] !== \false) {
                                 $p = Server::getInstance()->getPlayer($zom['IsChasing']);
-                                if (($p instanceof Player) === false) {
-                                    $zom['IsChasing'] = false;  //Cancel hate mode
+                                if (($p instanceof Player) === \false) {
+                                    $zom['IsChasing'] = \false;  //Cancel hate mode
                                 } else {
                                     //The real traveling direction calculation
                                     $xx = $p->getX() - $zo->getX();
@@ -291,24 +291,24 @@ $level = $zo->getLevel();
                                     //$v = $this->zo_hate_v/2;
                                     //$pos_front = new Vector3 ($zo->getX() + ($xxx/$v*($v+$this->width)), $zo->getY() + 1, $zo->getZ() + ($zzz/$v*($v+$this->width)));  //Front coordinates
                                     //$pos_back = new Vector3 ($zo->getX() + (-$xxx/$v*(-$v-$this->width)), $zo->getY() + 1, $zo->getZ() + (-$zzz/$v*(-$v-$this->width)));  //Rear coordinates
-                                    $zy = $this->ifjump($zo->getLevel(), $pos, true);
+                                    $zy = $this->ifjump($zo->getLevel(), $pos, \true);
 
-                                    if ($zy === false or ($zy !== false and $this->ifjump($zo->getLevel(), $pos0, true, true) == 'fall')) {  //Front can not move forwar
-                                        if ($this->ifjump($zo->getLevel(), $pos0, false) === false) { //Original coordinate is still vacant
-                                            if ($zom['drop'] === false) {
+                                    if ($zy === \false or ($zy !== \false and $this->ifjump($zo->getLevel(), $pos0, \true, \true) == 'fall')) {  //Front can not move forwar
+                                        if ($this->ifjump($zo->getLevel(), $pos0, \false) === \false) { //Original coordinate is still vacant
+                                            if ($zom['drop'] === \false) {
                                                 $zom['drop'] = 0;  //Zombie falling speed
                                             }
                                             $pos2 = new Vector3 ($zo->getX(), $zo->getY() - ($zom['drop'] / 2 + 1.25), $zo->getZ());  //decline
                                         } else {
-                                            $zom['drop'] = false;
+                                            $zom['drop'] = \false;
                                             if ($this->whatBlock($level, $pos0) == "climb") {  //ladder
                                                 $zy = $pos0->y + 0.7;
                                                 $pos2 = new Vector3 ($zo->getX(), $zy - 1, $zo->getZ());  //Target coordinates
                                             }
                                             elseif ($xxx != 0 and $zzz != 0) {  //To the closest distance
-                                                if ($this->ifjump($zo->getLevel(), new Vector3($zo->getX() + $xxx, $zo->getY() + 1, $zo->getZ()), true) !== false) {
+                                                if ($this->ifjump($zo->getLevel(), new Vector3($zo->getX() + $xxx, $zo->getY() + 1, $zo->getZ()), \true) !== \false) {
                                                     $pos2 = new Vector3($zo->getX() + $xxx, floor($zo->getY()), $zo->getZ());  //Target coordinates
-                                                } elseif ($this->ifjump($zo->getLevel(), new Vector3($zo->getX(), $zo->getY() + 1, $zo->getZ() + $zzz), true) !== false) {
+                                                } elseif ($this->ifjump($zo->getLevel(), new Vector3($zo->getX(), $zo->getY() + 1, $zo->getZ() + $zzz), \true) !== \false) {
                                                     $pos2 = new Vector3($zo->getX(), floor($zo->getY()), $zo->getZ() + $zzz);  //Target coordinates
                                                 } else {
                                                     $pos2 = new Vector3 ($zo->getX() - $xxx / 5, floor($zo->getY()), $zo->getZ() - $zzz / 5);  //Target coordinates
@@ -363,7 +363,7 @@ $level = $zo->getLevel();
                         //echo ($zom['IsChasing']."\n");
 
                         //The real free-fall
-                        if ($zom['drop'] !== false) {
+                        if ($zom['drop'] !== \false) {
                             $olddrop = $zom['drop'];
                             $zom['drop'] += 0.5;
                             $drop = $zom['drop'];
@@ -386,7 +386,7 @@ $level = $zo->getLevel();
                                             //$zo->attack($damage, EntityDamageEvent::CAUSE_FALL);
 											$zo->setHealth($zo->getHealth() - $damage);
                                         }
-                                        $zom['drop'] = false;
+                                        $zom['drop'] = \false;
                                         break;
                                     }
                                 }
@@ -395,7 +395,7 @@ $level = $zo->getLevel();
                             $drop = 0;
                         }
 
-                        if ($zom['IsChasing'] !== false) {
+                        if ($zom['IsChasing'] !== \false) {
                             if (!$zom['knockBack']) {
                                 //echo $zy;
                                 $zom['up'] = 0;
@@ -406,8 +406,8 @@ $level = $zo->getLevel();
                                     $zom['swim'] = 0;
                                 }
 
-                                if(abs($zo->getY() - $zom['oldv3']->y) == 1 and $zom['canjump'] === true){
-                                    $zom['canjump'] = false;
+                                if(abs($zo->getY() - $zom['oldv3']->y) == 1 and $zom['canjump'] === \true){
+                                    $zom['canjump'] = \false;
                                     $zom['jump'] = 0.5;
                                 }
                                 else {
@@ -502,15 +502,15 @@ $level = $zo->getLevel();
                     //var_dump($p->getLevel()->getTime());
                     if(0 < $level->getTime() and $level->getTime() < 13500){
                         $v3 = new Vector3($zo->getX(), $zo->getY(), $zo->getZ());
-                        $ok = true;
+                        $ok = \true;
                         for ($y0 = $zo->getY() + 2; $y0 <= $zo->getY()+10; $y0++) {
                             $v3->y = $y0;
                             if ($level->getBlock($v3)->getID() != 0) {
-                                $ok = false;
+                                $ok = \false;
                                 break;
                             }
                         }
-                        if ($this->whatBlock($level,new Vector3($zo->getX(), floor($zo->getY() - 1), $zo->getZ())) == "water") $ok = false;
+                        if ($this->whatBlock($level,new Vector3($zo->getX(), floor($zo->getY() - 1), $zo->getZ())) == "water") $ok = \false;
                         if ($ok) $zo->setOnFire(2);
                     }
                 

@@ -247,9 +247,9 @@ class Level implements ChunkManager, Metadatable{
 		Block::BROWN_MUSHROOM => BrownMushroom::class,
 		Block::PUMPKIN_STEM => PumpkinStem::class,
 		Block::MELON_STEM => MelonStem::class,
-		//Block::VINE => true,
+		//Block::VINE => \true,
 		Block::MYCELIUM => Mycelium::class,
-		//Block::COCOA_BLOCK => true,
+		//Block::COCOA_BLOCK => \true,
 		Block::CARROT_BLOCK => Carrot::class,
 		Block::POTATO_BLOCK => Potato::class,
 		Block::LEAVES2 => Leaves2::class,
@@ -1169,7 +1169,7 @@ class Level implements ChunkManager, Metadatable{
 	}
 
 	/*
-	public function rayTraceBlocks(Vector3 $pos1, Vector3 $pos2, $flag = false, $flag1 = false, $flag2 = false){
+	public function rayTraceBlocks(Vector3 $pos1, Vector3 $pos2, $flag = \false, $flag1 = \false, $flag2 = \false){
 		if(!is_nan($pos1->x) and !is_nan($pos1->y) and !is_nan($pos1->z)){
 			if(!is_nan($pos2->x) and !is_nan($pos2->y) and !is_nan($pos2->z)){
 				$x1 = (int) $pos1->x;
@@ -1181,29 +1181,29 @@ class Level implements ChunkManager, Metadatable{
 
 				$block = $this->getBlock(Vector3::createVector($x1, $y1, $z1));
 
-				if(!$flag1 or $block->getBoundingBox() !== null){
+				if(!$flag1 or $block->getBoundingBox() !== \null){
 					$ob = $block->calculateIntercept($pos1, $pos2);
-					if($ob !== null){
+					if($ob !== \null){
 						return $ob;
 					}
 				}
 
-				$movingObjectPosition = null;
+				$movingObjectPosition = \null;
 
 				$k = 200;
 
 				while($k-- >= 0){
 					if(is_nan($pos1->x) or is_nan($pos1->y) or is_nan($pos1->z)){
-						return null;
+						return \null;
 					}
 
 					if($x1 === $x2 and $y1 === $y2 and $z1 === $z2){
-						return $flag2 ? $movingObjectPosition : null;
+						return $flag2 ? $movingObjectPosition : \null;
 					}
 
-					$flag3 = true;
-					$flag4 = true;
-					$flag5 = true;
+					$flag3 = \true;
+					$flag4 = \true;
+					$flag5 = \true;
 
 					$i = 999;
 					$j = 999;
@@ -1214,7 +1214,7 @@ class Level implements ChunkManager, Metadatable{
 					}elseif($x1 < $x2){
 						$i = $x2;
 					}else{
-						$flag3 = false;
+						$flag3 = \false;
 					}
 
 					if($y1 > $y2){
@@ -1222,7 +1222,7 @@ class Level implements ChunkManager, Metadatable{
 					}elseif($y1 < $y2){
 						$j = $y2;
 					}else{
-						$flag4 = false;
+						$flag4 = \false;
 					}
 
 					if($z1 > $z2){
@@ -1230,7 +1230,7 @@ class Level implements ChunkManager, Metadatable{
 					}elseif($z1 < $z2){
 						$k = $z2;
 					}else{
-						$flag5 = false;
+						$flag5 = \false;
 					}
 
 					//TODO
