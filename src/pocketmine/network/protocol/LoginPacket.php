@@ -33,18 +33,18 @@ class LoginPacket extends DataPacket{
 	public $serverAddress;
 	public $clientSecret;
 
-	public $slim = false;
-	public $transparent = false;
+	public $slim = \false;
+	public $transparent = \false;
 	public $skinname = "";
-	public $oldclient = false;
-	public $skin = null;
+	public $oldclient = \false;
+	public $skin = \null;
 
 	public function decode(){
 		$this->username = $this->getString();
 		$this->protocol1 = $this->getInt();
 		$this->protocol2 = $this->getInt();
 		if($this->protocol1 < Info::CURRENT_PROTOCOL){ //New fields!
-			$this->setBuffer(null, 0); //Skip batch packet handling
+			$this->setBuffer(\null, 0); //Skip batch packet handling
 			return;
 		}
 		$this->clientId = $this->getLong();
@@ -60,7 +60,7 @@ class LoginPacket extends DataPacket{
     }
 
     if($extrasize1 === 2){
-      $this->oldclient = true;
+      $this->oldclient = \true;
       $this->slim = $this->getByte() > 0;
       $this->transparent = $this->getByte() > 0;
 			if($this->slim){
@@ -73,11 +73,11 @@ class LoginPacket extends DataPacket{
 			}
     }else{
       $this->skinname = $this->getString();
-      if(strpos($this->skinname, "_Slim") !== false or strpos($this->skinname, "_Alex") !== false){
-        $this->slim = true;
+      if(strpos($this->skinname, "_Slim") !== \false or strpos($this->skinname, "_Alex") !== \false){
+        $this->slim = \true;
       }
       if($this->skinname === "PvPWarriors_TundraStray"){//TODO: not check
-        $this->transparent = true;
+        $this->transparent = \true;
       }
     }
     $this->skin = $this->getString();

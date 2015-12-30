@@ -41,11 +41,11 @@ class FlowerPot extends Flowable{
 	}
 
 	public function canBeActivated(){
-		return true;
+		return \true;
 	}
 
 	public function canBeFlowedInto(){
-		return true;
+		return \true;
 	}
 
 	public function getHardness(){
@@ -53,7 +53,7 @@ class FlowerPot extends Flowable{
 	}
 
 	public function isSolid(){
-		return false;
+		return \false;
 	}
 
 	public function getName(){
@@ -71,9 +71,9 @@ class FlowerPot extends Flowable{
 		);
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		if($this->getSide(Vector3::SIDE_DOWN)->isTransparent() === false){
-			$this->getLevel()->setBlock($block, $this, true, true);
+	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = \null){
+		if($this->getSide(Vector3::SIDE_DOWN)->isTransparent() === \false){
+			$this->getLevel()->setBlock($block, $this, \true, \true);
 			$nbt = new Compound("", [
 				new String("id", Tile::FLOWER_POT),
 				new Int("x", $block->x),
@@ -83,12 +83,12 @@ class FlowerPot extends Flowable{
 				new Int("data", 0),
 			]);
 			$pot = Tile::createTile("FlowerPot", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
-			return true;
+			return \true;
 		}
-		return false;
+		return \false;
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, Player $player = \null){
 		$tile = $this->getLevel()->getTile($this);
 		if($tile instanceof FlowerPotTile){
 			if($tile->getFlowerPotItem() === Item::AIR){
@@ -109,12 +109,12 @@ class FlowerPot extends Flowable{
 						if($player->isSurvival()){
 							$item->count--;
 						}
-						return true;
+						return \true;
 					break;
 				}
 			}
 		}
-		return false;
+		return \false;
 	}
 
 	public function onUpdate($type){
@@ -124,7 +124,7 @@ class FlowerPot extends Flowable{
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
 		}
-		return false;
+		return \false;
 	}
 
 	public function getDrops(Item $item){

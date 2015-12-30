@@ -99,7 +99,7 @@ abstract class BaseChunk extends BaseFullChunk implements Chunk{
 	}
 
 	public function getBlockId($x, $y, $z){
-		if ($this->sections[$y >> 4]->getBlockId($x, $y & 0x0f, $z) == null)
+		if ($this->sections[$y >> 4]->getBlockId($x, $y & 0x0f, $z) == \null)
 		 {
 		  return 0;
 		 } else

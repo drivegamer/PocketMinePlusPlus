@@ -22,9 +22,9 @@ use pocketmine\event\entity\EntityDeathEvent;
 use pocketmine\item\Item;
 use pocketmine\Player;
 class PlayerDeathEvent extends EntityDeathEvent{
-	public static $handlerList = null;
+	public static $handlerList = \null;
 	private $deathMessage;
-	private $keepInventory = false;
+	private $keepInventory = \false;
 	/**
 	 * @param Player $entity
 	 * @param Item[] $drops

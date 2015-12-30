@@ -60,8 +60,8 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	protected $skin;
 	protected $skinname;
 	protected $isOldClient;
-	protected $isSlim = false;
-	protected $isTransparent = false;
+	protected $isSlim = \false;
+	protected $isTransparent = \false;
 
 	public function getSkinData(){
 		return $this->skin;
@@ -101,7 +101,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	 * @param string $str
 	 * @param bool   $isSlim
 	 */
-	public function setSkin($str, $skinname = "", $isOldClient = false, $isSlim = false, $isTransparent = null){
+	public function setSkin($str, $skinname = "", $isOldClient = \false, $isSlim = \false, $isTransparent = \null){
 		$this->skin = $str;
 		$this->skinname = $skinname;
 		$this->isOldClient = (bool) $isOldClient;
@@ -115,7 +115,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	protected function initEntity(){
 
-		$this->setDataFlag(self::DATA_PLAYER_FLAGS, self::DATA_PLAYER_FLAG_SLEEP, false);
+		$this->setDataFlag(self::DATA_PLAYER_FLAGS, self::DATA_PLAYER_FLAG_SLEEP, \false);
 		$this->setDataProperty(self::DATA_PLAYER_BED_POSITION, self::DATA_TYPE_POS, [0, 0, 0]);
 
 		$this->inventory = new PlayerInventory($this);
@@ -157,7 +157,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	public function getDrops(){
 		$drops = [];
-		if($this->inventory !== null){
+		if($this->inventory !== \null){
 			foreach($this->inventory->getContents() as $item){
 				$drops[] = $item;
 			}
@@ -170,7 +170,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		parent::saveNBT();
 		$this->namedtag->Inventory = new Enum("Inventory", []);
 		$this->namedtag->Inventory->setTagType(NBT::TAG_Compound);
-		if($this->inventory !== null){
+		if($this->inventory !== \null){
 			for($slot = 0; $slot < 9; ++$slot){
 				$hotbarSlot = $this->inventory->getHotbarSlotIndex($slot);
 				if($hotbarSlot !== -1){
