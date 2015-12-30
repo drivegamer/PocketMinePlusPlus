@@ -21,9 +21,6 @@
 
 namespace pocketmine\network\protocol;
 
-#include <rules/DataPacket.h>
-
-
 class PlayerListPacket extends DataPacket{
 	const NETWORK_ID = Info::PLAYER_LIST_PACKET;
 
