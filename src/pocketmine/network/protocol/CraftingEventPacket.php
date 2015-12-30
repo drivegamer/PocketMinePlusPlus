@@ -37,16 +37,16 @@ class CraftingEventPacket extends DataPacket{
 	}
 
 	public function decode(){
-		$this->windowId = \ord($this->get(1));
-		$this->type = (\PHP_INT_SIZE === 8 ? \unpack("N", $this->get(4))[1] << 32 >> 32 : \unpack("N", $this->get(4))[1]);
+		$this->windowId = $this->getByte();
+		$this->type = $this->getInt();
 		$this->id = $this->getUUID();
 
-		$size = (\PHP_INT_SIZE === 8 ? \unpack("N", $this->get(4))[1] << 32 >> 32 : \unpack("N", $this->get(4))[1]);
+		$size = $this->getInt();
 		for($i = 0; $i < $size and $i < 128; ++$i){
 			$this->input[] = $this->getSlot();
 		}
 
-		$size = (\PHP_INT_SIZE === 8 ? \unpack("N", $this->get(4))[1] << 32 >> 32 : \unpack("N", $this->get(4))[1]);
+		$size = $this->getInt();
 		for($i = 0; $i < $size and $i < 128; ++$i){
 			$this->output[] = $this->getSlot();
 		}
