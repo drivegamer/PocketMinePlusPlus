@@ -2304,14 +2304,18 @@ class Server{
 		}
 	}
 
-	public function updatePlayerListData(UUID $uuid, $entityId, $name, $isSlim, $skinData, array $players = \null, $isTransparent = \false, $oldclient = \false, $skinname = ""){
-		$pk = new PlayerListPacket();
-		$pk->type = PlayerListPacket::TYPE_ADD;
-		$pk->entries[] = [$uuid, $entityId, $name, $isSlim, $isTransparent, $skinData, $oldclient, $skinname];
+	public function updatePlayerListData(UUID $uuid, $entityId, $name, $isSlim, $skinData, array $players = \null, $isTransparent = \false, $skinname = ""){
+		if($players === \null){
+			$players = $this->playerList;
+		}
 
-		//print_r($pk->entries);
+		foreach($players as $player){
+			$pk = new PlayerListPacket();
+			$pk->type = PlayerListPacket::TYPE_ADD;
+			$pk->entries[] = [$uuid, $entityId, $name, $isSlim, $isTransparent, $skinData, $player->isOldClient(), $skinname];
 
-		Server::broadcastPacket($players === \null ? $this->playerList : $players, $pk);
+			Server::broadcastPacket([$player], $pk);
+		}
 	}
 
 	public function removePlayerListData(UUID $uuid, array $players = \null){
@@ -2321,7 +2325,7 @@ class Server{
 		Server::broadcastPacket($players === \null ? $this->playerList : $players, $pk);
 	}
 
-	public function sendFullPlayerListData(Player $p){//Not use?
+	public function sendFullPlayerListData(Player $p){
 		$pk = new PlayerListPacket();
 		$pk->type = PlayerListPacket::TYPE_ADD;
 		foreach($p->getLevel()->getPlayers() as $player){

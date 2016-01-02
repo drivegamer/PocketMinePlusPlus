@@ -33,7 +33,7 @@ class LoginPacket extends DataPacket{
 
 	public $slim = \false;
 	public $transparent = \false;
-	public $skinname = "";
+	public $skinname = "Standard_Custom";
 	public $oldclient = \false;
 	public $skin = \null;
 
@@ -41,8 +41,8 @@ class LoginPacket extends DataPacket{
 		$this->username = $this->getString();
 		$this->protocol1 = $this->getInt();
 		$this->protocol2 = $this->getInt();
-		if($this->protocol1 < Info::CURRENT_PROTOCOL){ //New fields!
-			$this->setBuffer(\null, 0); //Skip batch packet handling
+		if($this->protocol1 < Info::CURRENT_PROTOCOL){
+			$this->setBuffer(\null, 0);
 			return;
 		}
 		$this->clientId = $this->getLong();
@@ -62,19 +62,19 @@ class LoginPacket extends DataPacket{
       $this->slim = $this->getByte() > 0;
       $this->transparent = $this->getByte() > 0;
 			if($this->slim){
-				$this->skinname = "Standard_Alex";
+				$this->skinname = "Standard_CustomSlim";
 			}else{
-				$this->skinname = "Standard_Steve";
+				$this->skinname = "Standard_Custom";
 			}
 			if($this->transparent){
 				$this->skinname = "PvPWarriors_TundraStray";
 			}
     }else{
       $this->skinname = $this->getString();
-      if(strpos($this->skinname, "_Slim") !== \false or strpos($this->skinname, "_Alex") !== \false){
+      if(strpos($this->skinname, "Slim") !== \false or strpos($this->skinname, "Alex") !== \false){
         $this->slim = \true;
       }
-      if($this->skinname === "PvPWarriors_TundraStray"){//TODO: not check
+      if($this->skinname === "PvPWarriors_TundraStray"){
         $this->transparent = \true;
       }
     }
