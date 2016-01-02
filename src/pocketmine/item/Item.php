@@ -602,10 +602,16 @@ class Item{
 			self::$list[self::CARROT] = Carrot::class;
 			self::$list[self::POTATO] = Potato::class;
 			self::$list[self::BAKED_POTATO] = BakedPotato::class;
+			self::$list[self::POISONOUS_POTATO] = PoisonousPotato::class;
+            //self::$list[self::SKULL] = Skull::class;
 			self::$list[self::PUMPKIN_PIE] = PumpkinPie::class;
 			self::$list[self::NETHER_BRICK] = NetherBrick::class;
 			self::$list[self::QUARTZ] = Quartz::class;
 			self::$list[self::QUARTZ] = NetherQuartz::class;
+			self::$list[self::RAW_RABBIT] = RawRabbit::class;
+            self::$list[self::COOKED_RABBIT] = CookedRabbit::class;
+            self::$list[self::RABBIT_STEW] = RabbitStew::class;
+            self::$list[self::RABBIT_FOOT] = RabbitFoot::class;
 			self::$list[self::SPRUCE_DOOR] = SpruceDoor::class;
 			self::$list[self::BIRCH_DOOR] = BirchDoor::class;
 			self::$list[self::JUNGLE_DOOR] = JungleDoor::class;
@@ -990,13 +996,14 @@ class Item{
 		self::addCreativeItem(Item::get(Item::BEETROOT_BLOCK, 0));
 		self::addCreativeItem(Item::get(Item::APPLE, 0));
 		self::addCreativeItem(Item::get(Item::GOLDEN_APPLE, 0));
-		self::addCreativeItem(Item::get(Item::GOLDEN_APPLE, 1)); 
-		for ($i = 0; $i <= 3; $i++)
+		self::addCreativeItem(Item::get(466, 0));//Enchantment Golden Apple
+		self::addCreativeItem(Item::get(Item::RAW_FISH, 0));
+		for ($i = 0; $i <= 2; $i++)
 		  {
-		   self::addCreativeItem(Item::get(Item::RAW_FISH, $i));
+		   self::addCreativeItem(Item::get(460 + $i, 0));//All kinds of fish
 		  }
 		self::addCreativeItem(Item::get(Item::COOKED_FISH, 0));
-		self::addCreativeItem(Item::get(Item::COOKED_FISH, 1));
+		self::addCreativeItem(Item::get(463, 0));//Cooked Fish
 		self::addCreativeItem(Item::get(Item::ROTTEN_FLESH, 0));
 		self::addCreativeItem(Item::get(Item::MUSHROOM_STEW, 0));
 		self::addCreativeItem(Item::get(Item::BREAD, 0));

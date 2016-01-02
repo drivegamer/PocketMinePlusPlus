@@ -295,7 +295,7 @@ class Server{
 	 * @return string
 	 */
 	public function getName(){
-		return "PocketMine-MP";
+		return "PocketMine++";
 	}
 
 	/**
@@ -1722,9 +1722,9 @@ class Server{
 			$this->setDefaultLevel($this->getLevelByName($default));
 		}
 
-		if($this->loadLevel("nether") === \false){//Nether
+		if($this->loadLevel($default . "_nether") === \false){
 			$seed = $this->getConfigInt("level-seed", time());
-			$this->generateLevel("nether", $seed === 0 ? time() : $seed, Nether::class);
+			$this->generateLevel($default."_nether", $seed === 0 ? time() : $seed, Nether::class);
 		}
 
 
@@ -2389,10 +2389,10 @@ class Server{
 					}
 				}
 			}catch(\Exception $e){
-				$this->logger->critical($this->getLanguage()->translateString("pocketmine.level.tickError", [$level->getName(), $e->getMessage()]));
+				/*$this->logger->critical($this->getLanguage()->translateString("pocketmine.level.tickError", [$level->getName(), $e->getMessage()]));
 				if(\pocketmine\DEBUG > 1 and $this->logger instanceof MainLogger){
 					$this->logger->logException($e);
-				}
+				}*/
 			}
 		}
 	}
