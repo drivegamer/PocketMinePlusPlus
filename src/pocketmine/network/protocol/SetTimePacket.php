@@ -19,8 +19,6 @@
 
 namespace pocketmine\network\protocol;
 
-use pocketmine\utils\Binary;
-
 use pocketmine\level\Level;
 
 class SetTimePacket extends DataPacket{
@@ -34,9 +32,8 @@ class SetTimePacket extends DataPacket{
 	}
 
 	public function encode(){
-		$this->buffer = \chr(self::NETWORK_ID); $this->offset = 0;;
-		$this->buffer .= \pack("N", (int) (($this->time / Level::TIME_FULL) * 19200));
-		$this->buffer .= \chr($this->started ? 1 : 0);
+		$this->reset();
+		$this->putInt((int) (($this->time / Level::TIME_FULL) * 19200));
+		$this->putByte($this->started ? 0x80 : 0x00);
 	}
-
 }
