@@ -161,7 +161,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	public $gamemode;
 	public $lastBreak;
 
-	protected $windowCnt = 2;
+	protected $windowCnt = 1;
 	/** @var \SplObjectStorage<Inventory> */
 	protected $windows;
 	/** @var Inventory[] */
@@ -1963,7 +1963,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				}
 
 				if($this->teleportPosition !== \null or ($this->forceMovement instanceof Vector3 and (($dist = $newPos->distanceSquared($this->forceMovement)) > 0.1 or $revert))){
-					$this->sendPosition($this->forceMovement, $packet->yaw, $packet->pitch);
+					$this->sendPosition($this->teleportPosition === \null ? $this->forceMovement : $this->teleportPosition, $packet->yaw, $packet->pitch);
 				}else{
 					$packet->yaw %= 360;
 					$packet->pitch %= 360;
@@ -2361,12 +2361,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 				$vector = new Vector3($packet->x, $packet->y, $packet->z);
 
-
-				if($this->isCreative()){
-					$item = $this->inventory->getItemInHand();
-				}else{
-					$item = $this->inventory->getItemInHand();
-				}
+				$item = $this->inventory->getItemInHand();
 
 				$oldItem = clone $item;
 
@@ -2375,6 +2370,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						if(!$item->deepEquals($oldItem) or $item->getCount() !== $oldItem->getCount()){
 							$this->inventory->setItemInHand($item);
 							$this->inventory->sendHeldItem($this->hasSpawned);
+						}else{
+ 							$this->inventory->setItemInHand($item);
+ 							$this->inventory->sendHeldItem($this);
 						}
 					}
 					break;
@@ -2937,7 +2935,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->server->getPluginManager()->callEvent($ev = new PlayerKickEvent($this, $reason, $this->getLeaveMessage()));
 		if(!$ev->isCancelled()){
 			if($isAdmin){
-				$message = "Kicked by admin." . ($reason !== "" ? " Reason: " . $reason : "");
+				if(!$this->isBanned()){
+ 					$message = "Kicked by admin." . ($reason !== "" ? " Reason: " . $reason : "");
+ 				}else{
+ 					$message = $reason;
+ 				}
 			}else{
 				if($reason === ""){
 					$message = "disconnectionScreen.noReason";
@@ -3452,9 +3454,16 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		return \true;
 	}
 
+    /**
+ 	 * @param Vector3|Position|Location $pos
+	 * @param float $yaw
+ 	 * @param float $pitch
+ 	 *
+ 	 * @return bool
+     */
 	public function teleport(Vector3 $pos, $yaw = \null, $pitch = \null){
 		if(!$this->isOnline()){
-			return;
+			return \false;
 		}
 
 		$oldPos = $this->getPosition();
@@ -3479,7 +3488,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->resetFallDistance();
 			$this->nextChunkOrderRun = 0;
 			$this->newPosition = \null;
+			return \true;
 		}
+		return \false;
 	}
 
 	/**
@@ -3539,7 +3550,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 
 		if($forceId === \null){
-			$this->windowCnt = $cnt = \max(2, ++$this->windowCnt % 99);
+			$this->windowCnt = $cnt = \max(1, ++$this->windowCnt % 99);
 		}else{
 			$cnt = (int) $forceId;
 		}
