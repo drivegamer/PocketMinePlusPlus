@@ -782,7 +782,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 
         if(!file_exists($this->server->getDataPath()."players/vars/")) @mkdir($this->server->getDataPath()."players/vars/");
-		@exec("chmod 777 ".$this->server->getDataPath()."players/vars/");
 		$conf = new Config($this->server->getDataPath()."players/vars/".$this->username.".json", Config::JSON);
 		if (($conf->get("food") == \null) || ($conf->get("food") == \false)){
 		  $conf->set("food", 20);
@@ -1590,7 +1589,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				}
 			}
 
-			if($this->foodUsageTime >= 10.0 && $this->foodEnabled){
+			if($this->foodUsageTime >= 18.0 && $this->foodEnabled){
 				$this->foodUsageTime = 0;
 				$this->subtractFood(1);
 			}
@@ -1599,7 +1598,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				if($this->getHealth() < $this->getMaxHealth() && $this->getFood() >= 18){
 					$ev = new EntityRegainHealthEvent($this, 1, EntityRegainHealthEvent::CAUSE_EATING);
 					$this->heal(1, $ev);
-					if($this->foodDepletion >=2) {
+					if($this->foodDepletion >=8) {
 						$this->subtractFood(1);
 						$this->foodDepletion = 0;
 					} else {
