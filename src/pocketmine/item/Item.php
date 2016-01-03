@@ -651,7 +651,6 @@ class Item{
 		self::addCreativeItem(Item::get(Item::WOODEN_PLANKS, 4));
 		self::addCreativeItem(Item::get(Item::WOODEN_PLANKS, 5));
 		self::addCreativeItem(Item::get(Item::BRICKS, 0));
-
 		self::addCreativeItem(Item::get(Item::STONE, 0));
 		self::addCreativeItem(Item::get(Item::STONE, 1));
 		self::addCreativeItem(Item::get(Item::STONE, 2));
@@ -710,7 +709,7 @@ class Item{
 		self::addCreativeItem(Item::get(Item::NETHER_BRICKS_STAIRS, 0));
 		self::addCreativeItem(Item::get(Item::QUARTZ_STAIRS, 0));
 		self::addCreativeItem(Item::get(Item::SLAB, 0));
-		self::addCreativeItem(Item::get(Item::SLAB, 1));
+		self::addCreativeItem(Item::get(Item::SLAB, 3));
 		self::addCreativeItem(Item::get(Item::WOODEN_SLAB, 0));
 		self::addCreativeItem(Item::get(Item::WOODEN_SLAB, 3));
 		self::addCreativeItem(Item::get(Item::WOODEN_SLAB, 2));
